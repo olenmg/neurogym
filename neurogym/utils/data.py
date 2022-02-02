@@ -81,7 +81,7 @@ class Dataset(object):
         self._i_batch = 0
         self.max_batch = max_batch
 
-    def _cache(self, **kwargs):
+    def _cache(self, **kwargs): # new_trial 호출 -> task change
         for i in range(self.batch_size):
             env = self.envs[i]
             seq_start = 0
@@ -109,10 +109,10 @@ class Dataset(object):
     def __iter__(self):
         return self
 
-    def __call__(self, *args, **kwargs):
+    def __call__(self, *args, **kwargs): # __next__ 호출
         return self.__next__(**kwargs)
 
-    def __next__(self, **kwargs):
+    def __next__(self, **kwargs): # _cache 호출
         self._i_batch += 1
         if self._i_batch > self.max_batch:
             self._i_batch = 0
